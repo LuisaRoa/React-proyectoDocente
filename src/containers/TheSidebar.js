@@ -21,7 +21,6 @@ import UserProfile from 'src/views/usuarios/UserProfile';
 const TheSidebar = () => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.sidebarShow)
-  console.log(UserProfile.getRol());
   let items;
   items = navigation.filter(item => item.rol===UserProfile.getRol());
   if((UserProfile.getContrato()==="Hora Cátedra")||(UserProfile.getContrato()==="")){

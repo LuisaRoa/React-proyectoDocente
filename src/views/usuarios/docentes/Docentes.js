@@ -169,7 +169,7 @@ class Docentes extends Component {
 
 
   peticionGet = () => { //Petición para traer todos los docentes
-    axios.get(url).then(response => {
+    axios.get(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ data: response.data });
       this.setState({ tablaData: response.data });
     }).catch(error => {

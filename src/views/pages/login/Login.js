@@ -37,7 +37,6 @@ function Login(props) {
       ...form,
       [name]: value
     });
-    console.log(form);
   }
 
   const retornarId = async (rol) => { //Función donde se realiza guardan los datos del usuario autenticado
@@ -87,6 +86,7 @@ function Login(props) {
         retornarId(rol);
       } else {
         localStorage.setItem("rol", d.authorities[0]);
+        localStorage.setItem("contrato", "");
         props.history.push('/usuarios/docentes');
       }
 

@@ -151,9 +151,15 @@ class Administrativos extends Component {
   }
 
   peticionGet = () => { //Petición para traer todos los administrativos
-    axios.get(url).then(response => {
+    axios.get(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ data: response.data });
       this.setState({ tablaData: response.data });
+      var i;
+      for(i=0; i<=this.state.data.length; i++){
+        if(this.state.data[i].rol.nombre==='Administrador'){
+          this.state.data.splice(i,1);
+        }
+      }
     }).catch(error => {
       console.log(error.message);
     })
