@@ -1,0 +1,373 @@
+import React, { Component } from "react";
+import { FcOpenedFolder } from "react-icons/fc";
+import axios from 'axios';
+import { BsFillTrashFill, BsFileEarmarkText, BsSearch } from 'react-icons/bs';
+import { FcPlus } from "react-icons/fc";
+import { ModalBody, ModalFooter, ModalHeader, Modal } from 'reactstrap';
+import CIcon from '@coreui/icons-react'
+import {
+    CDataTable,
+    CCardBody,
+    CContainer,
+    CCol,
+    CNav,
+    CButton,
+    CRow,
+    CCardHeader,
+    CForm,
+    CInput,
+    CCard,
+    CFormGroup,
+    CLabel
+} from '@coreui/react'
+import UserProfile from '../usuarios/UserProfile';
+const fields = ['', 'nombre', 'fecha', 'lugar', 'tamaño', 'tipoArchivo', 'opciones']
+let extension;
+let tamano;
+class Actas extends Component {
+
+    state = {
+        data: [],
+        tablaData: [],
+        busqueda: "",
+        archivos: (null),
+        modalInsertar: false,
+        modalEliminar: false,
+        edicion: {
+            id: '',
+            nombre: '',
+            fecha: '',
+            tamaño: '',
+            tipoArchivo: '',
+            lugar: '',
+            comite: {
+                comi_id: ''
+            }
+        },
+        form: {
+            id: '',
+            nombre: '',
+            fecha: '',
+            tamaño: '',
+            tipoArchivo: '',
+            lugar: '',
+            comite: {
+                comi_id: '425'
+            },
+            tipoModal: ''
+        },
+        error: {},
+        campo: {},
+        enviado: false
+    }
+
+    validarFormulario() {
+        let campo = this.state.campo;
+        let error = {};
+        let formularioValido = true;
+        let fechaHora = new Date();
+        let dia = fechaHora.getDate();
+        let mes = fechaHora.getMonth() + 1;
+        let ano = fechaHora.getFullYear();
+        let fecha = ano + '-' + mes + '-' + dia;
+
+        if (!campo["files"]) {
+            formularioValido = false;
+            error["files"] = "Por favor, ingresa un Archivo";
+        }
+
+        if (!campo["nombre"]) {
+            formularioValido = false;
+            error["nombre"] = "Por favor, ingresa el Nombre.";
+        }
+        if (!campo["lugar"]) {
+            formularioValido = false;
+            error["lugar"] = "Por favor, ingresa el Lugar.";
+        }
+
+        if (!campo["fecha"]) {
+            formularioValido = false;
+            error["fecha"] = "Por favor, ingresa la Fecha del Acta.";
+        } else {
+            if (fecha <= campo["fecha"]) {
+                formularioValido = false;
+                error["fecha"] = "Por favor, ingresa una fecha anterior a la actual.";
+            }
+        }
+
+        this.setState({
+            error: error
+        });
+
+        return formularioValido;
+    }
+
+    peticionGet = () => {
+        axios.get('http://localhost:8080/actas/listarComite/' + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+            this.setState({ tablaData: response.data });
+            this.setState({ data: response.data });
+        }).catch(error => {
+            console.log(error.message);
+        })
+    }
+
+    peticionDelete = () => {
+        axios.delete('http://localhost:8080/actas/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+            this.setState({ modalEliminar: false });
+            this.peticionGet();
+        })
+    }
+
+    peticionPut = () => {
+        axios.put('http://localhost:8080/actas/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+            this.modalInsertar();
+            this.peticionGet();
+        })
+    }
+
+    handleChange = async e => {
+        e.persist();
+        await this.setState({
+            form: {
+                ...this.state.form,
+                [e.target.name]: e.target.value,
+                comite: {
+                    comi_id: this.props.id
+                }
+            }
+        });
+        let campo = this.state.campo;
+        campo[e.target.name] = e.target.value;
+
+        // Cambio de estado de campo 
+        this.setState({
+            campo
+        });
+    }
+
+    handleChanges = e => {
+        this.setState({ busqueda: e.target.value });
+        this.filtrar(e.target.value)
+    }
+
+    filtrar = (terminoBusqueda) => {
+        var resultadosBusqueda = this.state.tablaData.filter((elemento) => {
+            if (elemento.nombre.toString().toLowerCase().includes(terminoBusqueda.toString().toLowerCase()) ||
+                elemento.fecha.toString().toLowerCase().includes(terminoBusqueda.toString().toLowerCase())
+            ) {
+                return elemento;
+            }
+        });
+        this.setState({ data: resultadosBusqueda });
+    }
+
+    seleccionarActa = (acta) => {
+        this.setState({
+            tipoModal: 'actualizar',
+            form: {
+                id: acta.id,
+                nombre: acta.nombre,
+                fecha: acta.fecha,
+                tipoArchivo: acta.tipoArchivo,
+                tamaño: acta.tamaño,
+                lugar: acta.lugar,
+                comite: {
+                    comi_id: acta.comite.comi_id
+                }
+            }
+        })
+    }
+
+    subirArchivos = e => {
+        this.setState({ archivos: e });
+        let campo = this.state.campo;
+        campo['files'] = e;
+        this.setState({
+            campo
+        });
+    }
+
+    modalInsertar = () => {
+        this.setState({ modalInsertar: !this.state.modalInsertar });
+    }
+
+    insertArchivos = async () => {
+        if (this.validarFormulario()) {
+            await this.setState({
+                edicion: {
+                    nombre: this.state.form.nombre,
+                    fecha: this.state.form.fecha,
+                    tipoArchivo: this.state.form.tipoArchivo,
+                    tamaño: this.state.form.tamaño,
+                    lugar: this.state.form.lugar,
+                    comite: {
+                        comi_id: this.state.form.comite.comi_id
+                    }
+
+                }
+            });
+            const f = new FormData();
+
+            for (let index = 0; index < this.state.archivos.length; index++) {
+                f.append("multipartFile", this.state.archivos[index]);
+                extension = this.state.archivos[index].name.split('.').pop();
+                extension = extension.toUpperCase();
+                tamano = parseInt((this.state.archivos[index].size) / 1024);
+            }
+
+            await axios.post('http://localhost:8080/actas/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+                .then(response => {
+                    this.setState({
+                        form: {
+                            id: response.data.id,
+                            nombre: this.state.edicion.nombre,
+                            fecha: this.state.edicion.fecha,
+                            tipoArchivo: 'Archivo ' + extension,
+                            tamaño: tamano + ' KB',
+                            lugar: this.state.edicion.lugar,
+                            comite: {
+                                comi_id: this.state.edicion.comite.comi_id
+                            }
+                        }
+                    });
+                    this.peticionPut();
+                }).catch(error => {
+                    console.log(error);
+                })
+        }
+    }
+
+    componentDidMount() {
+        this.peticionGet();
+    }
+
+    render() {
+        const { form } = this.state;
+        return (
+            <div>
+                <CContainer >
+                    <CRow className="justify-content-center">
+                        <CCol>
+                            <CCard style={{ width: '100%', textAlign: 'center' }}>
+                                <CCardHeader>
+                                    <CForm className="form-inline" >
+                                        <h2 >< FcOpenedFolder size="50px" /> Actas</h2>
+                                        <CCol col="2" className="mb-3 mb-xl-0 text-center" >
+                                            <CNav className="navbar navbar-light bg-light" >
+                                                <CForm className="form-inline">
+                                                    <CInput className="form-control mr-sm-2" value={this.state.busqueda} placeholder="Buscar" aria-label="Search" onChange={this.handleChanges} />
+
+                                                </CForm>
+                                            </CNav>
+                                        </CCol>
+                                        <CCol col="2" className="mb-3 mb-xl-0 text-right">
+                                            <CButton onClick={() => { this.setState({ form: null, tipoModal: 'insertar' }); this.modalInsertar() }} variant="ghost" size="lg"><FcPlus size="60px" /></CButton>
+                                        </CCol>
+                                    </CForm>
+                                </CCardHeader>
+                                <CCardBody>
+                                    <CDataTable
+                                        items={this.state.data}
+                                        fields={fields}
+                                        hover
+                                        striped
+                                        bordered
+                                        size="sm"
+                                        itemsPerPage={5}
+                                        pagination
+                                        scopedSlots={{
+                                            'opciones':
+                                                (item) => (
+                                                    <tr>
+                                                        <td>
+                                                            <a
+                                                                href={item.actaUrl} target="_blank">
+                                                                <CButton >
+                                                                    <BsSearch />
+                                                                </CButton>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <CButton size="lg" onClick={() => { this.seleccionarActa(item); this.setState({ modalEliminar: true }) }}>
+                                                                <BsFillTrashFill />
+                                                            </CButton>
+                                                        </td>
+                                                    </tr>
+                                                ),
+                                            '':
+                                                (item) => (
+                                                    <td>
+                                                        <BsFileEarmarkText size="40px" />
+                                                    </td>
+                                                )
+                                        }}
+                                    />
+                                </CCardBody>
+                            </CCard>
+                        </CCol>
+                    </CRow>
+                </CContainer>
+                <Modal isOpen={this.state.modalInsertar}>
+                    <ModalHeader style={{ display: 'block' }}>
+                        <span style={{ float: 'right' }} onClick={() => this.modalInsertar()}></span>
+                    </ModalHeader>
+                    <ModalBody>
+                        <CForm encType="multipart/form-data" noValidat>
+                            <CFormGroup row>
+                                <br /><br />
+                                <CInput type="file" name="files" accept="application/pdf" multiple onChange={(e) => this.subirArchivos(e.target.files)} />
+                                <span style={{ color: "red" }}>{this.state.error["files"]}</span>
+                            </CFormGroup>
+
+                            <CFormGroup row>
+                                <CCol md="3">
+                                    <CLabel htmlFor="text-input">Nombre</CLabel>
+                                </CCol>
+                                <CCol xs="12" md="9">
+                                    <CInput name="nombre" className="form-control my-2" onChange={this.handleChange} value={form ? form.nombre : ''} />
+                                    <span style={{ color: "red" }}>{this.state.error["nombre"]}</span>
+                                </CCol>
+                            </CFormGroup>
+                            <CFormGroup row>
+                                <CCol md="3">
+                                    <CLabel htmlFor="text-input">Lugar</CLabel>
+                                </CCol>
+                                <CCol xs="12" md="9">
+                                    <CInput name="lugar" className="form-control my-2" onChange={this.handleChange} value={form ? form.lugar : ''} />
+                                    <span style={{ color: "red" }}>{this.state.error["lugar"]}</span>
+                                </CCol>
+                            </CFormGroup>
+
+                            <CFormGroup row>
+                                <CCol md="3">
+                                    <CLabel htmlFor="date-input">Fecha de Elaboración</CLabel>
+                                </CCol>
+                                <CCol xs="12" md="9">
+                                    <CInput type="date" name="fecha" className="form-control my-2" onChange={this.handleChange} value={form ? form.fecha : ''} />
+                                    <span style={{ color: "red" }}>{this.state.error["fecha"]}</span>
+                                </CCol>
+                            </CFormGroup>
+
+                        </CForm>
+                    </ModalBody>
+                    <ModalFooter>
+                        <CButton color="success" onClick={() => this.insertArchivos()}><CIcon name="cil-scrubber" /> Insertar</CButton>
+                        <CButton onClick={() => this.modalInsertar()} type="reset" color="warning"><CIcon name="cil-ban" /> Cancelar</CButton>
+                    </ModalFooter>
+                </Modal>
+                <Modal isOpen={this.state.modalEliminar}>
+                    <ModalBody>
+                        Estás seguro que deseas eliminar el acta {form && form.nombre}
+                    </ModalBody>
+                    <ModalFooter>
+                        <CButton color="success" onClick={() => this.peticionDelete()}>Sí</CButton>
+                        <CButton color="warning" onClick={() => this.setState({ modalEliminar: false })}>No</CButton>
+                    </ModalFooter>
+                </Modal>
+            </div>
+        );
+    }
+
+}
+
+export default Actas;
