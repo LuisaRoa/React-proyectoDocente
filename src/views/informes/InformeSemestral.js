@@ -191,7 +191,7 @@ class InformeSemestral extends Component {
   }
 
   peticionGetMateria = () => { //Petición para traer todas las materias
-    axios.get("http://localhost:8080/materia/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/materia/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ materias: response.data });
     }).catch(error => {
       console.log(error.message);
@@ -199,7 +199,7 @@ class InformeSemestral extends Component {
   }
 
   peticionGetMateriaId = (id) => { //Petición para traer todos la materia por el id
-    axios.get("http://localhost:8080/materia/retornarId/" + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/materia/retornarId/" + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({
         form: {
           ...this.state.form,
@@ -214,7 +214,7 @@ class InformeSemestral extends Component {
   }
 
   peticionGetPrograma = () => { //Petición para traer todos los programas academicos
-    axios.get("http://localhost:8080/programaacademico/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/programaacademico/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ programa: response.data });
     }).catch(error => {
       console.log(error.message);
@@ -223,7 +223,7 @@ class InformeSemestral extends Component {
 
   peticionGet = () => { //Petición para traer todos los informes de cierre academico de un docente
     var i;
-    axios.get('http://localhost:8080/informeSemestral/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeSemestral/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ tablaData: response.data });
       for (i = 0; i <= this.state.tablaData.length; i++) {
         this.setState({ data: response.data });
@@ -235,14 +235,14 @@ class InformeSemestral extends Component {
   }
  
   peticionDelete = () => { //Petición para borrar un informe
-    axios.delete('http://localhost:8080/informeSemestral/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeSemestral/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ modalEliminar: false });
       this.peticionGet();
     })
   }
 
   peticionPut = () => { //Petición para editar un informe
-    axios.put('http://localhost:8080/informeSemestral/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeSemestral/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.modalInsertar();
       this.peticionGet();
     })
@@ -413,7 +413,7 @@ class InformeSemestral extends Component {
         tamano = parseInt((this.state.archivos[index].size) / 1024);
       }
 
-      await axios.post('http://localhost:8080/informeSemestral/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+      await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeSemestral/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
         .then(response => {
           this.setState({
             form: {

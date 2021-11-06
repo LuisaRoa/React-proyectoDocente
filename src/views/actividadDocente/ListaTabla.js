@@ -50,7 +50,8 @@ class ListaTabla extends Component {
 
     peticionGet = () => { //Petición para traer todos los datos por docente de la actividad seleccionada
         var i;
-        axios.get('http://localhost:8080/' + this.props.url + '/listarDocente/' + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/' + this.props.url + '/listarDocente/' + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+            console.log(response.data);
             this.setState({ tablaData: response.data });
             if ((this.props.url != 'asesoria') && (this.props.url != 'evidencia')) {
                 for (i = 0; i <= this.state.tablaData.length; i++) {
@@ -63,6 +64,7 @@ class ListaTabla extends Component {
                         this.setState({ data: response.data });
                         this.state.data[i].aulaVirtual = this.state.tablaData[i].aulaVirtual.nombre;
                     }
+                    this.setState({info: this.state.tablaData[i].aulaVirtual.docente.nombre})
                 } else {
                     this.setState({ data: response.data });
                 }
@@ -74,7 +76,7 @@ class ListaTabla extends Component {
     }
 
     peticionPost = async () => { //Petición para guardar una nueva notificación
-        await axios.post('http://localhost:8080/notificacion/guardar', this.state.notification, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/notificacion/guardar', this.state.notification, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ modalNotificacion: false });
             this.mostrarAlerta('Observación enviada');
             this.peticionGet();
@@ -105,15 +107,27 @@ class ListaTabla extends Component {
     }
 
     seleccionar = (item) => { 
-        this.setState({
-            info: {
-                docente: {
-                    id: item.docente.id,
-                    nombre: item.docente.nombre
-                },
-                nombre: item.nombre
-            }
-        })
+        if(this.props.url==='evidencia'){
+            this.setState({
+                info: {
+                    docente: {
+                        id: this.props.id
+                    },
+                    nombre: item.nombre
+                }
+            })
+        }else{
+            this.setState({
+                info: {
+                    docente: {
+                        id: item.docente.id,
+                        nombre: item.docente.nombre
+                    },
+                    nombre: item.nombre
+                }
+            })
+        }
+        
         return item;
     }
 

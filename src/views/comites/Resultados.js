@@ -103,7 +103,7 @@ class Resultados extends Component {
     }
 
     peticionGet = () => { //Petición para traer los productos por el id del comité
-        axios.get('http://localhost:8080/producto/listarComite/' + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/producto/listarComite/' + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ tablaData: response.data });
             this.setState({ data: response.data });
         }).catch(error => {
@@ -112,14 +112,14 @@ class Resultados extends Component {
     }
 
     peticionDelete = () => { //Petición para eliminar un producto
-        axios.delete('http://localhost:8080/producto/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/producto/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ modalEliminar: false });
             this.peticionGet();
         })
     }
 
     peticionPut = () => { //Petición para editar un producto
-        axios.put('http://localhost:8080/producto/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/producto/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.modalInsertar();
             this.peticionGet();
         })
@@ -215,7 +215,7 @@ class Resultados extends Component {
                 tamano = parseInt((this.state.archivos[index].size) / 1024);
             }
 
-            await axios.post('http://localhost:8080/producto/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+            await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/producto/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
                 .then(response => {
                     this.setState({
                         form: {

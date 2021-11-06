@@ -94,7 +94,7 @@ class Archivos extends Component{
       }
 
       peticionGetId=(id)=>{ //Petición para traer todas las aulas virtuales por el id del docente
-        axios.get('http://localhost:8080/aulasvirtuales/retornarId/'+id,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/aulasvirtuales/retornarId/'+id,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
           this.setState({nombre: response.data.nombre });
           this.setState({tablaData: response.data});
         }).catch(error=>{
@@ -103,7 +103,7 @@ class Archivos extends Component{
       }
 
     peticionGet=(id)=>{ //Petición para traer todas las evidencias por el id del aula virtual
-        axios.get('http://localhost:8080/evidencia/listarPorAula/'+id,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/evidencia/listarPorAula/'+id,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
           this.setState({data: response.data});
           this.setState({tablaData: response.data});
         }).catch(error=>{
@@ -112,14 +112,14 @@ class Archivos extends Component{
       }
 
       peticionDelete=()=>{ //Petición para eliminar una evidencia
-        axios.delete('http://localhost:8080/evidencia/delete/'+this.state.form.id,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
+        axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/evidencia/delete/'+this.state.form.id,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
           this.setState({modalEliminar: false});
           this.peticionGet(this.props.match.params.id);
         })
       }
 
       peticionPut=()=>{ //Petición para editar una evidencia
-        axios.put('http://localhost:8080/evidencia/editar', this.state.form,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
+        axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/evidencia/editar', this.state.form,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
                 this.modalInsertar();
                 this.peticionGet(this.props.match.params.id);
            })
@@ -229,7 +229,7 @@ class Archivos extends Component{
               
           }
 
-          await axios.post('http://localhost:8080/evidencia/upload', f,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}})
+          await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/evidencia/upload', f,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}})
           .then(response=>{
               this.setState({form: {
                 id: response.data.id,

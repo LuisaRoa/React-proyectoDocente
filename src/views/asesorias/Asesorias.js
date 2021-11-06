@@ -112,7 +112,7 @@ class Asesorias extends Component {
   }
 
   peticionGet = () => { //Petición para traer todas las asesorias de acuerdo al docente loggeado
-    axios.get('http://localhost:8080/asesoria/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/asesoria/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ data: response.data });
       this.setState({ tablaData: response.data });
     }).catch(error => {
@@ -121,14 +121,14 @@ class Asesorias extends Component {
   }
 
   peticionDelete = () => { //Petición para eliminar una asesoria
-    axios.delete('http://localhost:8080/asesoria/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/asesoria/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ modalEliminar: false });
       this.peticionGet();
     })
   }
 
   peticionPut = () => { //Petición para editar una asesoria
-    axios.put('http://localhost:8080/asesoria/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/asesoria/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.modalInsertar();
       this.peticionGet();
     })
@@ -228,7 +228,7 @@ class Asesorias extends Component {
         tamano = parseInt((this.state.archivos[index].size) / 1024);
       }
 
-      await axios.post('http://localhost:8080/asesoria/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+      await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/asesoria/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
         .then(response => {
           this.setState({
             form: {

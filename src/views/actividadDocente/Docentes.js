@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 
 const fields = ['documento', 'nombre', 'codigo', 'fechaIngreso', 'correo', 'sede', 'opciones']
 
-const url = "http://localhost:8080/docente/retornarAdministrativo/";
+const url = "http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/docente/retornarAdministrativo/";
 
 
 class Docentes extends Component {

@@ -159,7 +159,7 @@ class SolicitudSA extends Component {
   }
 
   peticionGetMateria=()=>{
-    axios.get("http://localhost:8080/materia/retornarTodos",{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/materia/retornarTodos",{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
       this.setState({materias: response.data});
     }).catch(error=>{
       console.log(error.message);
@@ -167,7 +167,7 @@ class SolicitudSA extends Component {
   }
 
   peticionGetPrograma=()=>{
-    axios.get("http://localhost:8080/programaacademico/retornarTodos",{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/programaacademico/retornarTodos",{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{
       this.setState({programa: response.data});
     }).catch(error=>{
       console.log(error.message);
@@ -179,7 +179,7 @@ class SolicitudSA extends Component {
     if (this.validarFormulario()) {            
       // Cambio el estado de 'enviado' a 'true'
         this.setState({enviado: true});
-        await axios.post('http://localhost:8080/solicitudsalida/guardar',this.state.form,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{  
+        await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/solicitudsalida/guardar',this.state.form,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response=>{  
           this.mostrarAlerta();
       }).catch(error=>{
           console.log(error.message);

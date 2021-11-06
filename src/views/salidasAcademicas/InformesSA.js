@@ -114,7 +114,7 @@ class InformeSA extends Component {
   }
 
   peticionGetSalidas = () => {
-    axios.get("http://localhost:8080/solicitudsalida/retornarEstado/" + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/solicitudsalida/retornarEstado/" + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ salidas: response.data });
     }).catch(error => {
       console.log(error.message);
@@ -123,7 +123,7 @@ class InformeSA extends Component {
 
   peticionGet = () => {
     var i;
-    axios.get('http://localhost:8080/informeSalidas/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeSalidas/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ data: response.data });
     }).catch(error => {
       console.log(error.message);
@@ -131,14 +131,14 @@ class InformeSA extends Component {
   }
 
   peticionDelete = () => {
-    axios.delete('http://localhost:8080/informeSalidas/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeSalidas/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ modalEliminar: false });
       this.peticionGet();
     })
   }
 
   peticionPut = () => {
-    axios.put('http://localhost:8080/informeSalidas/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeSalidas/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.modalInsertar();
       this.peticionGet();
     })
@@ -265,7 +265,7 @@ class InformeSA extends Component {
         tamano = parseInt((this.state.archivos[index].size) / 1024);
       }
 
-      await axios.post('http://localhost:8080/informeSalidas/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+      await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeSalidas/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
         .then(response => {
           this.setState({
             form: {

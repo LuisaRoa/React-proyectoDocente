@@ -35,7 +35,7 @@ const TheHeaderDropdownMssg = () => {
   useEffect(() => {
     var i;
     var conteo = 0;
-    axios.get('http://localhost:8080/notificacion/listarDocente/' + UserProfile.getId(),{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
+    axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/notificacion/listarDocente/' + UserProfile.getId(),{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
       guardarNoti(response.data)
       for (i = 0; i < (response.data).length; i++) {
         conteo++;

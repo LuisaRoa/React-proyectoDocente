@@ -133,7 +133,7 @@ class InformeMensual extends Component {
     }
 
     peticionGetPrograma = () => { //Petición para traer todos los programas academicos
-        axios.get("http://localhost:8080/programaacademico/retornarTodos",{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
+        axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/programaacademico/retornarTodos",{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
             this.setState({ programa: response.data });
         }).catch(error => {
             console.log(error.message);
@@ -141,7 +141,7 @@ class InformeMensual extends Component {
     }
 
     peticionGet = () => { //Petición para traer todos los informes de cierre academico de un docente
-        axios.get('http://localhost:8080/informeHoras/listarDocente/' + UserProfile.getId(),{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeHoras/listarDocente/' + UserProfile.getId(),{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
             this.setState({ tablaData: response.data });
             this.setState({ data: response.data });
         }).catch(error => {
@@ -150,14 +150,14 @@ class InformeMensual extends Component {
     }
 
     peticionDelete = () => { //Petición para borrar un informe
-        axios.delete('http://localhost:8080/informeHoras/delete/' + this.state.form.id,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
+        axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeHoras/delete/' + this.state.form.id,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
             this.setState({ modalEliminar: false });
             this.peticionGet();
         })
     }
 
     peticionPut = () => { //Petición para editar un informe
-        axios.put('http://localhost:8080/informeHoras/editar', this.state.form,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
+        axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeHoras/editar', this.state.form,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}}).then(response => {
             this.modalInsertar();
             this.peticionGet();
         })
@@ -290,7 +290,7 @@ class InformeMensual extends Component {
                 tamano = parseInt((this.state.archivos[index].size) / 1024);
             }
 
-            await axios.post('http://localhost:8080/informeHoras/upload', f,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}})
+            await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/informeHoras/upload', f,{headers:{Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}`}})
                 .then(response => {
                     this.setState({
                         form: {

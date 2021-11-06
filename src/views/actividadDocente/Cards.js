@@ -58,7 +58,7 @@ class Cards extends Component {
         })
     }
     peticionGet = () => { //Petición para traer todos los docentes que no son miembros de un comité
-        axios.get("http://localhost:8080/docente/listarNoMiembros/" + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/docente/listarNoMiembros/" + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ docentes: response.data });
             this.setState({ tablaData: response.data });
             this.setState({ modalMiembros: true });
@@ -68,7 +68,7 @@ class Cards extends Component {
     }
 
     peticionGetCronograma = () => { //Trae todos los cronogramas de un comité especifico
-        axios.get("http://localhost:8080/cronograma/listarComite/" + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cronograma/listarComite/" + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ cronogramas: response.data });
             this.setState({ modalEliminar: true });
         }).catch(error => {
@@ -77,7 +77,7 @@ class Cards extends Component {
     }
 
     peticionPost = async () => { //Petición para guardar un nuevo miembro de un comité
-        await axios.post('http://localhost:8080/miembros/guardar', this.state.miembro, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/miembros/guardar', this.state.miembro, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.mostrarAlerta('Miembro Agregado');
             this.peticionGet();
         }).catch(error => {
@@ -86,14 +86,14 @@ class Cards extends Component {
     }
 
     peticionPut = () => { //Petición para editar un cronograma
-        axios.put('http://localhost:8080/cronograma/editar', this.state.cronograma, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cronograma/editar', this.state.cronograma, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.mostrarAlerta('Cronograma Agregado');
             this.setState({ modalCronograma: false });
         })
     }
 
     peticionDelete = () => { //Petición para eliminar un cronograma
-        axios.delete('http://localhost:8080/cronograma/delete/' + this.state.cronograma.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cronograma/delete/' + this.state.cronograma.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ modalEliminar: false });
             this.mostrarAlerta('Cronograma Eliminado');
         })
@@ -151,7 +151,7 @@ class Cards extends Component {
             tamano = parseInt((this.state.archivos[index].size) / 1024);
         }
 
-        await axios.post('http://localhost:8080/cronograma/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+        await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cronograma/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
             .then(response => {
                 this.setState({
                     cronograma: {
@@ -284,7 +284,7 @@ class Cards extends Component {
                 </Modal>
                 <Modal isOpen={this.state.modalEliminar}>
                     <ModalHeader style={{ color: '#007a3d' }}>
-                        Agregar Miembros
+                        Eliminar Cronograma
                     </ModalHeader>
                     <ModalBody>
                         <CForm>

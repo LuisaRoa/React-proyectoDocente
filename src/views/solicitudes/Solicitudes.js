@@ -97,7 +97,7 @@ class Solicitudes extends Component {
 
     peticionGet = () => { //Petición para traer todas las solicitudes de aulas por el id del administrativo
         var i;
-        axios.get('http://localhost:8080/solicitudaulas/retornarAdministrativo/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/solicitudaulas/retornarAdministrativo/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ tablaData: response.data });
             for (i = 0; i <= this.state.tablaData.length; i++) {
                 this.setState({ data: response.data });
@@ -110,7 +110,7 @@ class Solicitudes extends Component {
     }
 
     peticionGetId = (id) => { //Petición para traer una solicitud de aula por id
-        axios.get("http://localhost:8080/solicitudaulas/retornarId/" + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/solicitudaulas/retornarId/" + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ aulaId: response.data });
             this.setState({
                 aula: {
@@ -135,7 +135,7 @@ class Solicitudes extends Component {
     }
 
     peticionGetIdSalida = () => { //Petición para traer todas las solicitudes de salidas academicas 
-        axios.get("http://localhost:8080/solicitudsalida/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/solicitudsalida/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({
                 salida: {
                     ...this.state.salida,
@@ -150,7 +150,7 @@ class Solicitudes extends Component {
 
     aprobarAula = () => { //Función para aprobar una solicitud de aula virtual
         this.peticionGetId(this.state.aula.soau_id);
-        axios.put('http://localhost:8080/solicitudaulas/editar', this.state.aula, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/solicitudaulas/editar', this.state.aula, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ modalSolicitud: false });
             this.mostrarAlerta('Aula virtual aprobada');
             this.peticionGet();
@@ -160,14 +160,14 @@ class Solicitudes extends Component {
     }
 
     peticionPost = async () => { //Función para guardar un aula virtual
-        await axios.post('http://localhost:8080/aulasvirtuales/guardar', this.state.aulaVirtual, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/aulasvirtuales/guardar', this.state.aulaVirtual, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
         }).catch(error => {
             console.log(error.message);
         })
     }
 
     aprobarSalida = () => { //Función para aprobar una solicitud academica
-        axios.put('http://localhost:8080/solicitudsalida/editar', this.state.salida, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/solicitudsalida/editar', this.state.salida, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ modalSalidas: false });
             this.mostrarAlerta('Salida academica aprobada');
             this.peticionGetSalida();
@@ -175,7 +175,7 @@ class Solicitudes extends Component {
     }
 
     peticionGetSalida = () => { //Función para traer una solicitud de salida academica por el id del administrativo
-        axios.get("http://localhost:8080/solicitudsalida/retornarAdministrativo/" + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/solicitudsalida/retornarAdministrativo/" + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ salidas: response.data });
             this.setState({ tablaSalidas: response.data });
         }).catch(error => {

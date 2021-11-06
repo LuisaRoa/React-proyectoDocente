@@ -107,7 +107,7 @@ class Formatos extends Component {
   }
 
   peticionGet = () => { //Petición para traer todos los formatos
-    axios.get('http://localhost:8080/cloudinary/list', { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cloudinary/list', { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ data: response.data });
       this.setState({ tablaData: response.data });
     }).catch(error => {
@@ -116,14 +116,14 @@ class Formatos extends Component {
   }
 
   peticionDelete = () => { //Petición para eliminar un formulario
-    axios.delete('http://localhost:8080/cloudinary/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cloudinary/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ modalEliminar: false });
       this.peticionGet();
     })
   }
 
   peticionPut = () => { //Petición para editar un formulario
-    axios.put('http://localhost:8080/cloudinary/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cloudinary/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.modalInsertar();
       this.peticionGet();
     })
@@ -213,7 +213,7 @@ class Formatos extends Component {
         f.append("multipartFile", this.state.archivos[index]);
       }
 
-      await axios.post('http://localhost:8080/cloudinary/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+      await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cloudinary/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
         .then(response => {
           this.setState({
             form: {

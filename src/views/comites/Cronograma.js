@@ -23,7 +23,7 @@ class Cronograma extends Component {
     }
 
     peticionGet = () => { //Petición para traer todos los cronogramas por el id del comité
-        axios.get('http://localhost:8080/cronograma/listarComite/' + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cronograma/listarComite/' + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ tablaData: response.data });
             this.setState({ data: response.data });
         }).catch(error => {
@@ -32,7 +32,7 @@ class Cronograma extends Component {
     }
 
     peticionGetId = () => { //Petición para traer un cronograma por id
-        axios.get('http://localhost:8080/cronograma/retornarId/' + this.state.seleccionado, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cronograma/retornarId/' + this.state.seleccionado, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ cronograma: response.data });
         }).catch(error => {
             console.log(error.message);

@@ -26,7 +26,7 @@ import UserProfile from '../UserProfile';
 
 const fields = ['documento', 'nombre', 'codigo', 'direccion', 'celular', 'fechaNacimiento', 'sexo', 'fechaIngreso', 'correo', 'sede', 'opciones']
 
-const url = "http://localhost:8080/docente/retornarTodos";
+const url = "http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/docente/retornarTodos";
 
 
 class Docentes extends Component {
@@ -178,7 +178,7 @@ class Docentes extends Component {
   }
 
   peticionGetDirector = () => { //Petición para traer todos los administrativos
-    axios.get("http://localhost:8080/administrativo/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/administrativo/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ director: response.data });
     }).catch(error => {
       console.log(error.message);
@@ -191,7 +191,7 @@ class Docentes extends Component {
 
       // Cambio el estado de 'enviado' a 'true'
       this.setState({ enviado: true });
-      await axios.post('http://localhost:8080/docente/guardar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+      await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/docente/guardar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
         this.modalInsertar();
         this.peticionGet();
       }).catch(error => {
@@ -203,14 +203,14 @@ class Docentes extends Component {
   }
 
   peticionPut = () => { //Petición para editar un docente
-    axios.put('http://localhost:8080/docente/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/docente/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.modalInsertar();
       this.peticionGet();
     })
   }
 
   peticionDelete = () => { //Petición para eliminar un docente
-    axios.delete('http://localhost:8080/docente/eliminar/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/docente/eliminar/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ modalEliminar: false });
       this.peticionGet();
     })

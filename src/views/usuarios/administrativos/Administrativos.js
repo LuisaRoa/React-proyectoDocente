@@ -26,7 +26,7 @@ import UserProfile from '../UserProfile';
 
 const fields = ['documento', 'nombre', 'codigo', 'direccion', 'celular', 'fechaNacimiento', 'sexo', 'fechaIngreso', 'correo', 'sede', 'opciones']
 
-const url = "http://localhost:8080/administrativo/retornarTodos";
+const url = "http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/administrativo/retornarTodos";
 
 
 class Administrativos extends Component {
@@ -169,31 +169,31 @@ class Administrativos extends Component {
     if (this.validarFormulario()) {
       // Cambio el estado de 'enviado' a 'true'
       this.setState({ enviado: true });
-      await axios.post('http://localhost:8080/administrativo/guardar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+      await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/administrativo/guardar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
         this.modalInsertar();
         this.peticionGet();
       }).catch(error => {
-        console.log(error.message);
+        console.log(error.response.data);
       })
     }
   }
 
   peticionPut = () => { //Petición para editar un administrativo
-    axios.put('http://localhost:8080/administrativo/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/administrativo/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.modalInsertar();
       this.peticionGet();
     })
   }
 
   peticionDelete = () => { //Petición para eliminar un administrativo
-    axios.delete('http://localhost:8080/administrativo/eliminar/' + this.state.form.admi_id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/administrativo/eliminar/' + this.state.form.admi_id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ modalEliminar: false });
       this.peticionGet();
     })
   }
 
   peticionGetPrograma = () => { //Petición para traer todos los programas academicos
-    axios.get("http://localhost:8080/programaacademico/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/programaacademico/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ programa: response.data });
     }).catch(error => {
       console.log(error.message);

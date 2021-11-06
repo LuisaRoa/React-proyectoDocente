@@ -157,7 +157,7 @@ class Syllabus extends Component {
   }
 
   peticionGetMateria = () => { //Petición para traer todas las materias
-    axios.get("http://localhost:8080/materia/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/materia/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ materias: response.data });
     }).catch(error => {
       console.log(error.message);
@@ -165,7 +165,7 @@ class Syllabus extends Component {
   }
 
   peticionGetMateriaId = (id) => { //Petición para traer una materia por id
-    axios.get("http://localhost:8080/materia/retornarId/" + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/materia/retornarId/" + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({
         form: {
           ...this.state.form,
@@ -180,7 +180,7 @@ class Syllabus extends Component {
   }
 
   peticionGetPrograma = () => { //Petición para traer todos los programas académicos
-    axios.get("http://localhost:8080/programaacademico/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/programaacademico/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ programa: response.data });
     }).catch(error => {
       console.log(error.message);
@@ -189,7 +189,7 @@ class Syllabus extends Component {
 
   peticionGet = () => { //Petición para traer todos los syllabus que tenga un docente
     var i;
-    axios.get('http://localhost:8080/syllabus/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/syllabus/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ tablaData: response.data });
 
       for (i = 0; i <= this.state.tablaData.length; i++) {
@@ -202,14 +202,14 @@ class Syllabus extends Component {
   }
 
   peticionDelete = () => { //Petición para eliminar un syllabus
-    axios.delete('http://localhost:8080/syllabus/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/syllabus/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ modalEliminar: false });
       this.peticionGet();
     })
   }
 
   peticionPut = () => { //Petición para editar un syllabus
-    axios.put('http://localhost:8080/syllabus/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/syllabus/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.modalInsertar();
       this.peticionGet();
     })
@@ -375,7 +375,7 @@ class Syllabus extends Component {
         tamano = parseInt((this.state.archivos[index].size) / 1024);
       }
 
-      await axios.post('http://localhost:8080/syllabus/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+      await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/syllabus/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
         .then(response => {
           this.setState({
             form: {

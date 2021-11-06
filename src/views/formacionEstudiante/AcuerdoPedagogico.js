@@ -143,7 +143,7 @@ class AcuerdoPedagogico extends Component {
   }
 
   peticionGetMateria = () => { //Petición para traer todas las materias
-    axios.get("http://localhost:8080/materia/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/materia/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ materias: response.data });
     }).catch(error => {
       console.log(error.message);
@@ -151,7 +151,7 @@ class AcuerdoPedagogico extends Component {
   }
 
   peticionGetMateriaId = (id) => { //Petición para traer una materia por id
-    axios.get("http://localhost:8080/materia/retornarId/" + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/materia/retornarId/" + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({
         form: {
           ...this.state.form,
@@ -166,7 +166,7 @@ class AcuerdoPedagogico extends Component {
   }
 
   peticionGetPrograma = () => { //Petición para traer todos los programas académicos
-    axios.get("http://localhost:8080/programaacademico/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/programaacademico/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ programa: response.data });
     }).catch(error => {
       console.log(error.message);
@@ -175,7 +175,7 @@ class AcuerdoPedagogico extends Component {
 
   peticionGet = () => { //Petición para traer todos los acuerdos pedagogicos que tenga un docente
     var i;
-    axios.get('http://localhost:8080/acuerdopedagogico/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/acuerdopedagogico/listarDocente/' + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ tablaData: response.data });
 
       for (i = 0; i <= this.state.tablaData.length; i++) {
@@ -188,14 +188,14 @@ class AcuerdoPedagogico extends Component {
   }
 
   peticionDelete = () => { //Petición para eliminar un acuerdo pedagogico
-    axios.delete('http://localhost:8080/acuerdopedagogico/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.delete('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/acuerdopedagogico/delete/' + this.state.form.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ modalEliminar: false });
       this.peticionGet();
     })
   }
 
   peticionPut = () => { //Petición para editar un acuerdo pedagogico
-    axios.put('http://localhost:8080/acuerdopedagogico/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/acuerdopedagogico/editar', this.state.form, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.modalInsertar();
       this.peticionGet();
     })
@@ -358,7 +358,7 @@ class AcuerdoPedagogico extends Component {
         tamano = parseInt((this.state.archivos[index].size) / 1024);
       }
 
-      await axios.post('http://localhost:8080/acuerdopedagogico/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+      await axios.post('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/acuerdopedagogico/upload', f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
         .then(response => {
           this.setState({
             form: {

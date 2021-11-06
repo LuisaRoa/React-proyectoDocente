@@ -22,7 +22,7 @@ class VerActas extends Component {
     }
 
     peticionGet = (id) => { //Función para traer todas las actas de acuerdo al comité
-        axios.get('http://localhost:8080/actas/listarComite/' + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/actas/listarComite/' + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ tablaData: response.data });
             this.setState({ data: response.data });
 

@@ -16,7 +16,7 @@ class EvidenciasAV extends Component {
   }
 
   peticionGet = () => { //Petición para traer las aulas virtuales pertenecientes a un docente
-    axios.get("http://localhost:8080/aulasvirtuales/listarDocente/" + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/aulasvirtuales/listarDocente/" + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ data: response.data });
       this.setState({ tablaData: response.data });
     }).catch(error => {

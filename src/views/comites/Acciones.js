@@ -27,7 +27,7 @@ class Acciones extends Component {
     }
 
     peticionGetId = (id) => { //Petición para traer los comités por id
-        axios.get('http://localhost:8080/comite/retornarId/' + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/comite/retornarId/' + id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ nombre: response.data.nombre });
             this.setState({ tablaData: response.data });
         }).catch(error => {

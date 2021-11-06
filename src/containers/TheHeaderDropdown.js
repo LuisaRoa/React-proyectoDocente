@@ -14,7 +14,7 @@ function TheHeaderDropdown(props) {
 
   const cerrarSesion = async () => {
     let token = sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME);
-    await axios.get("http://localhost:8080/cerrarSesion/anular/" + token)
+    await axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/cerrarSesion/anular/" + token)
       .then(respuesta => {
         sessionStorage.clear();
         localStorage.clear();

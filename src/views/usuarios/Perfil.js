@@ -119,7 +119,7 @@ class Perfil extends Component {
         } else {
             rol = "docente";
         }
-        axios.get("http://localhost:8080/" + rol + "/retornarId/" + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/" + rol + "/retornarId/" + UserProfile.getId(), { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({
                 form: {
                     ...this.state.form,
@@ -145,7 +145,7 @@ class Perfil extends Component {
 
     actualizarPassword = () => { //Petición para actualizar o modificar el password del usuario
         if (this.validarFormulario()) {
-            axios.put('http://localhost:8080/' + rol + '/cambiarPassword/' + UserProfile.getId() + '/' + this.state.passwordNuevo, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+            axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/' + rol + '/cambiarPassword/' + UserProfile.getId() + '/' + this.state.passwordNuevo, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
                 this.setState({ modalPassword: false });
                 this.mostrarAlerta();
                 this.peticionGet();
@@ -158,7 +158,7 @@ class Perfil extends Component {
         for (let index = 0; index < this.state.archivos.length; index++) {
             f.append("multipartFile", this.state.archivos[index]);
         }
-        axios.put('http://localhost:8080/' + rol + '/upload/' + UserProfile.getId(), f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
+        axios.put('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/' + rol + '/upload/' + UserProfile.getId(), f, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } })
             .then(response => {
                 this.setState({ modalFoto: false, filepreview: null });
                 this.peticionGet();

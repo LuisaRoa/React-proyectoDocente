@@ -32,7 +32,7 @@ class Actividades extends Component {
   }
 
   peticionGetId = () => { //Petición para traer un docente por id
-    axios.get('http://localhost:8080/docente/retornarId/' + this.props.match.params.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+    axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/docente/retornarId/' + this.props.match.params.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ data: response.data });
       this.setState({ tablaData: response.data });
     }).catch(error => {

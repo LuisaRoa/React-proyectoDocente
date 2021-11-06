@@ -28,7 +28,7 @@ class Grafica extends Component {
     peticionGet = () => { //Petición para traer los datos por año
         let encabezados = []
         var valores = []
-        axios.get('http://localhost:8080/' + this.props.actividad + '/reporteanual/' + this.props.año, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/' + this.props.actividad + '/reporteanual/' + this.props.año, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ data: response.data })
             this.setState({ titulo: 'Número de ' + this.props.titulo + ' por mes' })
             encabezados = ["-01-", '-02-', '-03-', '-04-', '-05-', '-06-', '-07-', '-08-', '-09-', '-10-', '-11-', '-12-']
@@ -59,7 +59,7 @@ class Grafica extends Component {
         let encabezados = []
         var valores = []
         var valores2 = []
-        axios.get('http://localhost:8080/actas/reporteanual/' + this.props.año, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/actas/reporteanual/' + this.props.año, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ data: response.data })
             this.setState({ titulo: 'Número de actas por mes' })
             encabezados = ["-01-", '-02-', '-03-', '-04-', '-05-', '-06-', '-07-', '-08-', '-09-', '-10-', '-11-', '-12-']
@@ -71,7 +71,7 @@ class Grafica extends Component {
         }).catch(error => {
             console.log(error);
         })
-        axios.get('http://localhost:8080/producto/reporteanual/' + this.props.año, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/producto/reporteanual/' + this.props.año, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ data: response.data })
             this.setState({ titulo2: 'Número de productos por mes' })
             encabezados = ["-01-", '-02-', '-03-', '-04-', '-05-', '-06-', '-07-', '-08-', '-09-', '-10-', '-11-', '-12-']
@@ -91,7 +91,7 @@ class Grafica extends Component {
         var valores = [];
         var valores2 = [];
         var i;
-        axios.get('http://localhost:8080/' + this.props.actividad + '/reporteperiodo/' + this.props.año + '/' + this.props.periodo, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/' + this.props.actividad + '/reporteperiodo/' + this.props.año + '/' + this.props.periodo, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ data: response.data })
             if (this.props.actividad === 'asesoria') {
                 this.setState({ titulo: 'Número de ' + this.props.titulo + ' por docente' })
@@ -189,7 +189,7 @@ class Grafica extends Component {
         var valores = []
         var valores2 = []
         var i;
-        axios.get('http://localhost:8080/actas/reporteperiodo/' + this.props.año + '/' + this.props.periodo, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/actas/reporteperiodo/' + this.props.año + '/' + this.props.periodo, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ data: response.data })
             this.setState({ titulo: 'Número de actas por comité' })
             for (i = 0; i < this.state.data.length; i++) {
@@ -206,7 +206,7 @@ class Grafica extends Component {
         }).catch(error => {
             console.log(error);
         })
-        axios.get('http://localhost:8080/producto/reporteperiodo/' + this.props.año + '/' + this.props.periodo, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+        axios.get('http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/producto/reporteperiodo/' + this.props.año + '/' + this.props.periodo, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ data: response.data })
             this.setState({ titulo2: 'Número de productos por comité' })
             for (i = 0; i < this.state.data.length; i++) {
