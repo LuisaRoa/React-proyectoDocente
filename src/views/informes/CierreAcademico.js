@@ -24,7 +24,7 @@ import {
 } from '@coreui/react'
 import UserProfile from '../usuarios/UserProfile';
 
-const fields = ['', 'nombre', 'fecha', 'semestre', 'tamaño', 'tipoArchivo', 'opciones']
+const fields = ['', 'nombre', 'fecha', 'tamaño', 'tipoArchivo', 'opciones']
 let extension;
 let tamano;
 
@@ -101,10 +101,6 @@ class CierreAcademico extends Component {
       error["periodoAca"] = "Por favor, ingresa el Periodo Académico.";
     }
 
-    if (!campo["semestre"]) {
-      formularioValido = false;
-      error["semestre"] = "Por favor, ingresa el Semestre.";
-    }
 
     this.setState({
       error: error
@@ -144,7 +140,8 @@ class CierreAcademico extends Component {
         [e.target.name]: e.target.value,
         administrativo: {
           admi_id: UserProfile.getId()
-        }
+        },
+        semestre: 'Noveno'
       }
     });
     let campo = this.state.campo;
@@ -373,16 +370,6 @@ class CierreAcademico extends Component {
                     <option value="2">II Semestre</option>
                   </CSelect>
                   <span style={{ color: "red" }}>{this.state.error["periodoAca"]}</span>
-                </CCol>
-              </CFormGroup>
-
-              <CFormGroup row>
-                <CCol md="3">
-                  <CLabel htmlFor="date-input">Semestre</CLabel>
-                </CCol>
-                <CCol xs="12" md="9">
-                  <CInput name="semestre" className="form-control my-2" onChange={this.handleChange} value={form ? form.semestre : ''} />
-                  <span style={{ color: "red" }}>{this.state.error["semestre"]}</span>
                 </CCol>
               </CFormGroup>
 

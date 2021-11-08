@@ -43,7 +43,9 @@ function Login(props) {
     await axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/" + rol + "/buscarCorreo" + `/${form.username}`, { headers: { Authorization: `Bearer ${sessionStorage.getItem(userProfile.getToken().TOKEN_NAME)}` } })
       .then(respuesta => {
         localStorage.setItem("nombre", respuesta.data.nombre);
-        localStorage.setItem("foto", respuesta.data.fotoUrl);
+        if(respuesta.data.fotoUrl!= null){
+          localStorage.setItem("foto", respuesta.data.fotoUrl);
+        }
         localStorage.setItem("rol", respuesta.data.rol.nombre);
         if (rol === 'administrativo') {
           localStorage.setItem("id", respuesta.data.admi_id);

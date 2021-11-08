@@ -61,6 +61,12 @@ class Cards extends Component {
         axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/docente/listarNoMiembros/" + this.props.id, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
             this.setState({ docentes: response.data });
             this.setState({ tablaData: response.data });
+            var i;
+            for (i = 0; i <= this.state.docentes.length; i++) {
+                if (this.state.docentes[i].contrato != 'Hora Cátedra') {
+                    this.state.docentes.splice(i, 1);
+                }
+            }
             this.setState({ modalMiembros: true });
         }).catch(error => {
             console.log(error.message);

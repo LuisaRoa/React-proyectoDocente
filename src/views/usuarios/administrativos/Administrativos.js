@@ -51,7 +51,11 @@ class Administrativos extends Component {
       programaacademico: {
         prac_id: ''
       },
+      rol: {
+        rol_id: '21'
+      },
       program: '',
+      password: '',
       tipoModal: ''
     },
     programa: [],
@@ -222,7 +226,8 @@ class Administrativos extends Component {
         programaacademico: {
           prac_id: usuario.programaacademico.prac_id
         },
-        program: usuario.programaacademico.prac_id
+        program: usuario.programaacademico.prac_id,
+        password: usuario.password
       }
     })
   }
@@ -236,7 +241,10 @@ class Administrativos extends Component {
           programaacademico: {
             prac_id: e.target.value
           },
-          program: e.target.value
+          program: e.target.value,
+          rol:{
+            rol_id: '21'
+          }
         }
       });
     } else {

@@ -37,6 +37,7 @@ class Perfil extends Component {
             fotoUrl: '',
             password: ''
         },
+        boolean: false,
         passwordActual: '',
         passwordNuevo: '',
         passwordNuevo2: '',
@@ -70,7 +71,7 @@ class Perfil extends Component {
             error["passwordActual"] = "Por favor, ingresa la contraseña actual";
         }
 
-        if (campo["passwordActual"] != this.state.form.password) {
+        if (this.state.boolean!= true) {
             formularioValido = false;
             error["passwordActual"] = "Contraseña Actual incorrecta";
         }
@@ -111,6 +112,19 @@ class Perfil extends Component {
         });
 
         return formularioValido;
+    }
+
+    peticionGetPassword = () => { //Petición para buscar el password actual
+        if (UserProfile.getRol() === 'Administrativo') {
+            rol = "administrativo";
+        } else {
+            rol = "docente";
+        }
+        axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/" + rol + "/buscarPassword/" + UserProfile.getId()+"/"+ this.state.passwordActual, { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
+            this.setState({boolean: true});
+        }).catch(error => {
+            this.setState({boolean: false});
+        })
     }
 
     peticionGet = () => { //Petición para traer los datos de un usuario por id
@@ -318,7 +332,7 @@ class Perfil extends Component {
                         </CForm>
                     </ModalBody>
                     <ModalFooter>
-                        <CButton color="success" onClick={() => this.actualizarPassword()}>Guardar</CButton>
+                        <CButton color="success" onClick={() => {this.peticionGetPassword();this.actualizarPassword()}}>Guardar</CButton>
                         <CButton color="warning" onClick={() => this.setState({ modalPassword: false })}>Cancelar</CButton>
                     </ModalFooter>
                 </Modal>

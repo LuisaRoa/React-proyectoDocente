@@ -8,7 +8,6 @@ import {
 } from '@coreui/react'
 
 function Card({ nombre, semestre, fechaSolicitud, tipo, estado, logo }) {
-  console.log(nombre);
   const [form, setForm] = useState({
     logo: logo
   })

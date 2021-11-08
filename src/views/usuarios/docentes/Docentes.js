@@ -48,6 +48,10 @@ class Docentes extends Component {
       fechaIngreso: '',
       correo: '',
       sede: '',
+      rol: {
+        rol_id: 22
+      },
+      password: '',
       administrativo: {
         admi_id: '0',
         documento: '',
@@ -180,6 +184,12 @@ class Docentes extends Component {
   peticionGetDirector = () => { //Petición para traer todos los administrativos
     axios.get("http://ec2-3-136-234-55.us-east-2.compute.amazonaws.com:8080/administrativo/retornarTodos", { headers: { Authorization: `Bearer ${sessionStorage.getItem(UserProfile.getToken().TOKEN_NAME)}` } }).then(response => {
       this.setState({ director: response.data });
+      var i;
+      for(i=0; i<=this.state.director.length; i++){
+        if(this.state.director[i].rol.nombre==='Administrador'){
+          this.state.director.splice(i,1);
+        }
+      }
     }).catch(error => {
       console.log(error.message);
     })
@@ -238,8 +248,12 @@ class Docentes extends Component {
         administrativo: {
           admi_id: usuario.administrativo.admi_id
         },
+        rol:{
+          rol_id: usuario.rol.rol_id
+        },
         admin: usuario.administrativo.admi_id,
-        contrato: usuario.contrato
+        contrato: usuario.contrato,
+        password: usuario.password
       }
     })
   }
@@ -260,7 +274,10 @@ class Docentes extends Component {
       await this.setState({
         form: {
           ...this.state.form,
-          [e.target.name]: e.target.value
+          [e.target.name]: e.target.value,
+          rol:{
+            rol_id: 22
+          }
         }
       });
       let campo = this.state.campo;
